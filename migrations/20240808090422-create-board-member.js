@@ -9,10 +9,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      boardId: {
+      taskId: {
         type: Sequelize.INTEGER,
         references: {
-					model: "Boards",
+					model: "Cards",
 					key: "id",
 				},
 				onUpdate: "CASCADE",

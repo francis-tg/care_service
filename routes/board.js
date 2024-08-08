@@ -17,7 +17,7 @@ router.post('/', ensureAuthenticated, async (req, res) => {
 router.get('/', ensureAuthenticated, async (req, res) => {
   try {
     const boards = await Board.findAll({ where: { userId: req.user.id }, include: 'lists' });
-    res.render('board',{boards})
+    res.status(200).json(boards)
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

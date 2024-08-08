@@ -1,2 +1,326 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/sortablejs/1.14.0/sortable.min.css" rel="stylesheet">
+    <style>
+        .kanban-column {
+            min-height: 400px;
+            margin-bottom: 20px;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .kanban-column h4 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .kanban-item {
+            cursor: pointer;
+            background-color: #fff;
+            border-radius: 6px;
+            padding: 16px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 16px;
+            color: #333;
+        }
+
+        .kanban-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary, .btn-secondary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover, .btn-secondary:hover {
+            background-color: #0056b3;
+            border-color: #004a99;
+        }
+
+        .modal-title {
+            color: #333;
+        }
+
+        .modal-body {
+            color: #555;
+        }
+    </style>
+
+<body>
+    <div class="container my-5">
+        <h1 class="text-center mb-4 text-primary">Kanban Board</h1>
+        <div class="d-flex justify-content-end mb-3">
+            <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#createBoard">Create Board</button>
+            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#createListAndTask">Create List and Task</button>
+        </div>
+        <div id="boards-container" class="row">
+            <!-- Kanban boards will be added here dynamically -->
+        </div>
+    </div>
+
+    <!-- Modal for creating a board -->
+    <div class="modal fade" id="createBoard" tabindex="-1" aria-labelledby="createBoardLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createBoardLabel">Create Board</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="boardForm">
+                        <div class="mb-3">
+                            <label for="boardTitle" class="form-label">Board Title</label>
+                            <input type="text" class="form-control" id="boardTitle" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveBoard">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for creating a list and task -->
+    <div class="modal fade" id="createListAndTask" tabindex="-1" aria-labelledby="createListAndTaskLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createListAndTaskLabel">Créer un tâche</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="listAndTaskForm">
+                        <div class="mb-3">
+                            <label for="listTitle" class="form-label">Titre de la tâche</label>
+                            <input type="text" class="form-control" id="listTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="listBoard" class="form-label">Colonne</label>
+                            <select class="form-select" id="listBoard" required></select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="taskTitle" class="form-label">Tâche</label>
+                            <input type="text" class="form-control" id="taskTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="taskDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="taskDescription" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="personnel" class="form-label">Personnel</label>
+                            <select
+                                class="form-select"
+                                name="personnel"
+                                id="personnel"
+                            >
+                                {{#each users}}
+                                    <option value="{{id}}">{{name}} {{lastname}}</option>
+                                {{/each}}
+                                
+                            </select>
+                        </div>
+                        
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveListAndTask">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for viewing tasks -->
+    <div class="modal fade" id="viewTasksModal" tabindex="-1" aria-labelledby="viewTasksModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewTasksModalLabel">Tasks in List</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="tasksList">
+                    <!-- Tasks will be added here dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/Sortable.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let boards = [];
+            let lists = [];
+            let tasks = [];
+
+            async function fetchData() {
+                try {
+                    const [boardsResponse, listsResponse, tasksResponse] = await Promise.all([
+                        fetch('/api/boards'),
+                        fetch('/api/lists'),
+                        fetch('/api/tasks')
+                    ]);
+                    boards = await boardsResponse.json();
+                    lists = await listsResponse.json();
+                    tasks = await tasksResponse.json();
+
+                    renderBoards();
+                    renderListOptions();
+                    renderKanbanItems();
+                } catch (error) {
+                    console.error('Failed to fetch data:', error);
+                }
+            }
+            function renderListOptions() {
+                const select = document.getElementById('listBoard');
+                select.innerHTML = '';
+
+                boards.forEach(board => {
+                    const option = document.createElement('option');
+                    option.value = board.id;
+                    option.textContent = board.name;
+                    select.appendChild(option);
+                });
+            }
+
+            function renderBoards() {
+                const container = document.getElementById('boards-container');
+                container.innerHTML = '';
+
+                boards.forEach(board => {
+                    const boardElement = document.createElement('div');
+                    boardElement.classList.add('col-md-4');
+                    boardElement.innerHTML = `
+                        <div class="kanban-column">
+                            <h4>${board.name}</h4>
+                            <div class="kanban-items" id="lists-${board.id}"></div>
+                        </div>
+                    `;
+                    container.appendChild(boardElement);
+                    renderLists(board.id);
+                });
+            }
+
+            function renderLists(boardId) {
+                const listContainer = document.getElementById(`lists-${boardId}`);
+                listContainer.innerHTML = '';
+
+                lists.filter(list => list.boardId === boardId).forEach(list => {
+                    const listElement = document.createElement('div');
+                    listElement.classList.add('kanban-item');
+                    listElement.textContent = list.name;
+                    listElement.dataset.id = list.id;
+                    listElement.addEventListener('click', () => showTasks(list.id));
+                    listContainer.appendChild(listElement);
+                });
+            }
+
+            function showTasks(listId) {
+                const taskContainer = document.getElementById('tasksList');
+                taskContainer.innerHTML = '';
+
+                const listTasks = tasks.filter(task => task.listId === listId);
+                listTasks.forEach(task => {
+                    const taskElement = document.createElement('div');
+                    taskElement.classList.add('mb-3');
+                    taskElement.innerHTML = `
+                        <h5>${task.title}</h5>
+                        <p>${task.description}</p>
+                    `;
+                    taskContainer.appendChild(taskElement);
+                });
+
+                const modal = new bootstrap.Modal(document.getElementById('viewTasksModal'));
+                modal.show();
+            }
+
+            function renderTaskOptions() {
+                const select = document.getElementById('taskList');
+                select.innerHTML = '';
+
+                lists.forEach(list => {
+                    const option = document.createElement('option');
+                    option.value = list.id;
+                    option.textContent = list.name;
+                    select.appendChild(option);
+                });
+            }
+
+            async function updateTaskStatus(evt) {
+                const taskId = evt.item.dataset.id;
+                const newListId = evt.from.id.replace('list-', '');
+
+                try {
+                    await fetch(`/api/tasks/${taskId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ listId: newListId })
+                    });
+                    fetchData();
+                } catch (error) {
+                    console.error('Failed to update task status:', error);
+                }
+            }
+
+            async function createBoard() {
+                const boardTitle = document.getElementById('boardTitle').value;
+
+                try {
+                    await fetch('/api/boards', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name: boardTitle })
+                    });
+                    fetchData();
+                    document.getElementById('boardForm').reset();
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('createBoard'));
+                    modal.hide();
+                } catch (error) {
+                    console.error('Failed to create board:', error);
+                }
+            }
+
+            async function createListAndTask() {
+                const listTitle = document.getElementById('listTitle').value;
+                const boardId = document.getElementById('listBoard').value;
+                const taskTitle = document.getElementById('taskTitle').value;
+                const taskDescription = document.getElementById('taskDescription').value;
+                const personnel = document.getElementById("personnel").value
+
+                try {
+                    // Create the list
+                    const listResponse = await fetch('/api/lists', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name: listTitle, boardId })
+                    });
+                    const list = await listResponse.json();
+
+                    // Create the task
+                    await fetch('/api/tasks', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ title: taskTitle, description: taskDescription, listId: list.id })
+                    });
+
+                    fetchData();
+                    document.getElementById('listAndTaskForm').reset();
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('createListAndTask'));
+                    modal.hide();
+                } catch (error) {
+                    console.error('Failed to create list and task:', error);
+                }
+            }
+
+            document.getElementById('saveBoard').addEventListener('click', createBoard);
+            document.getElementById('saveListAndTask').addEventListener('click', createListAndTask);
+
+            fetchData();
+        });
+    </script>
+</body>
+</html>

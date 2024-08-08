@@ -106,7 +106,7 @@ app.use(async function (req, res, next) {
   res.locals.messages = req.session.messages || [];
   req.session.messages = [];
   res.locals.error = req.flash("error") || null;
-  console.log(req.user)
+  //console.log(req.user)
   next();
 });
 // view engine setup
@@ -122,6 +122,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth',require("./routes/auth/index"))
+app.use('/api/boards',require("./routes/board"))
+app.use('/api/tasks',require("./routes/card"))
+app.use('/api/lists',require("./routes/list"))
 app.use('/admin/personnel',require("./routes/personnel"))
 
 // catch 404 and forward to error handler

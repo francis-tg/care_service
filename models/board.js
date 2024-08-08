@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.belongsTo(models.User, { foreignKey: 'userId', as: 'owner' });
       this.hasMany(models.List, { foreignKey: 'boardId', as: 'lists' });
-      this.belongsToMany(models.User, { through: 'BoardMember', as: 'members', foreignKey: 'boardId' });
+      
     }
   }
   Board.init({
