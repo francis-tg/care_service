@@ -18,10 +18,10 @@ function ValidateField(req, res, next) {
 		for (const key in body) {
 			if (body[key] === null || body[key] === undefined || body[key] === "") {
 				req.flash("error", "Veuillez renseigner tous les champs...");
-				/* return res
+				return res
 					.status(400)
-					.json({ error: `Le champ "${key}" ne peut pas être vide.` }); */
-				return next()
+					.json({ error: `Le champ "${key}" ne peut pas être vide.` });
+				//return next()
 			}
 
 			// Échappez la valeur
