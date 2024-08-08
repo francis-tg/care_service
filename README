@@ -7,6 +7,10 @@ npm install
 ````
 
 ````cmd
+npx sequelize-cli db:create
+````
+
+````cmd
 npx sequelize-cli db:migrate
 ````
 
