@@ -10,8 +10,42 @@ module.exports = {
      */
     async getPersonnel(req, res, next) {
         try {
-            const personnels = await db.User.findAll({ where: { name: { [Op.not]: 'Admin User' } }, raw: true })
+            const role = await db.Role.findOne({where:{name:'Technician'},raw:true})
+            const personnels = await db.User.findAll({
+                include: {
+                  model: db.Role,
+                  as: 'roles',
+                  through: { attributes: [] }, // Exclut les attributs de la table de liaison
+                  where: { id: role?.id } // Filtre par l'ID du rôle
+                },
+                raw: true,
+                nest: true // Utilisé pour un format de résultat imbriqué
+              });
             return res.render("personnel", { personnels })
+        } catch (error) {
+            next(error)
+        }
+    },
+    /**
+     * 
+     * @param {import("express").Request} _req 
+     * @param {import("express").Response} res 
+     * @param {import("express").NextFunction} next
+     */
+    async getUsers(_req, res, next) {
+        try {
+            const role = await db.Role.findOne({where:{name:'User'},raw:true})
+            const users = await db.User.findAll({
+                include: {
+                  model: db.Role,
+                  as: 'roles',
+                  through: { attributes: [] }, // Exclut les attributs de la table de liaison
+                  where: { id: role?.id } // Filtre par l'ID du rôle
+                },
+                raw: true,
+                nest: true // Utilisé pour un format de résultat imbriqué
+              });
+            return res.render("personnel/user", { users })
         } catch (error) {
             next(error)
         }

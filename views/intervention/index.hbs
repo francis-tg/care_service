@@ -73,7 +73,7 @@
                     <td class="min-width">
                         <p><a href="tel:{{" technician.contact"}}">
                                 <font style="vertical-align: inherit;">
-                                    <font style="vertical-align: inherit;">{{"technician.name"}}</font>
+                                    <font style="vertical-align: inherit;">{{"technician.name"}} {{"technician.lastname"}}</font>
                                 </font>
                             </a></p>
                     </td>
@@ -96,12 +96,64 @@
 
                     <td>
                         <div class="action">
-                            <button class="text-danger">
-                                <i class="lni lni-trash-can"></i>
+                            <button class="text-warning" data-bs-toggle="modal" data-bs-target="#edit{{id}}">
+                                <i class="lni lni-pencil-alt"></i>
                             </button>
+                            <a href="/admin/intervention/delete/{{id}}" class="text-danger">
+                                <i class="lni lni-trash-can"></i>
+                            </a>
                         </div>
                     </td>
                 </tr>
+                <!-- Modal -->
+                <div class="modal fade" id="edit{{id}}" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalTitleId">
+                                    Modifier intervention
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="">
+                                    <form action="/admin/intervention/update/{{id}}" method="post">
+                                        <div class="mb-3">
+                                            <label for="issue" class="form-label">Le problème</label>
+                                            <select required disabled class="form-select" name="issue_id" id="issue">
+                                                {{#each ../issues}}
+                                                <option value="{{id}}" {{#if_eq ../id id}}
+                                                    selected
+                                                {{/if_eq}}>{{name}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="technician" class="form-label">Le Techninicen</label>
+                                            <select class="form-select" name="technician_id" id="technician">
+                                                {{#each ../users}}
+                                                <option value="{{id}}" {{#if_eq ../technician_id id}}
+                                                    selected
+                                                {{/if_eq}}>{{name}} {{lastname}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                    Fermer
+                                </button>
+                                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {{/each}}
 
             </tbody>

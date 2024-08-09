@@ -4,6 +4,7 @@ const {isAdmin } = require("../middleware/auth");
 const router = require("express").Router()
 
 router.get('/', isAdmin, personnel.getPersonnel);
+router.get('/users', isAdmin, personnel.getUsers);
 router.post('/create',isAdmin,personnel.createPersonnel)
 
 module.exports = router
