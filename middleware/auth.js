@@ -1,7 +1,13 @@
 const passport = require("passport");
 module.exports = {
+	/**
+	 * 
+	 * @param {import("express").Request} req 
+	 * @param {import("express").Response} res 
+	 * @param {import("express").NextFunction} next 
+	 */
 	ensureAuthenticated: function (req, res, next) {
-		if (req.isAuthenticated()) {
+		if (req.isAuthenticated() && req.user.role!=='User') {
 			return next();
 		
 	    }
@@ -13,15 +19,18 @@ module.exports = {
 		return res.redirect(path);
 		}
 	},
+	/**
+	 * 
+	 * @param {import("express").Request} req 
+	 * @param {import("express").Response} res 
+	 * @param {import("express").NextFunction} next 
+	 */
 	isAdmin(req, res, next) {
-		let path = "/auth/login";
-		path += req.headers.referer ? `?next=${req.headers.referer}` : "";
-		if (req.isAuthenticated() && req.user["Role.isAdmin"]) {
-			return next();
+		if (req.isAuthenticated() && req.user.role==='Admin') {
+			return next()
+		}else{
+			return res.status(401).redirect(req.headers.referer)
 		}
-		if (req.isAuthenticated() && !req.user["Role.isAdmin"])
-			return res.status(401).send("Not Authorized");
-		else return res.redirect(path);
 	},
 
 	protect(){

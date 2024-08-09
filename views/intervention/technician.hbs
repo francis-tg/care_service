@@ -1,0 +1,182 @@
+<div class="container-fluid">
+
+    <div class="table-wrapper py-5 table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="lead-info">
+                        <h6>
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Nom</font>
+                            </font>
+                        </h6>
+                    </th>
+                    <th class="lead-company">
+                        <h6>
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Description</font>
+                            </font>
+                        </h6>
+                    </th>
+                    <th class="lead-email">
+                        <h6>
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Technicien</font>
+                            </font>
+                        </h6>
+                    </th>
+                    <th class="lead-phone">
+                        <h6>
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Status</font>
+                            </font>
+                        </h6>
+                    </th>
+
+                    <th>
+                        <h6>
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Action</font>
+                            </font>
+                        </h6>
+                    </th>
+                </tr>
+                <!-- end table row-->
+            </thead>
+            <tbody>
+                {{#each interventions}}
+                <tr>
+                    <td class="min-width">
+                        <div class="lead">
+
+                            <div class="lead-text">
+                                <p>
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">{{"Issue.name"}}</font>
+                                    </font>
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="min-width">
+                        <p>
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">{{shortTextObject "Issue.description"}}</font>
+                            </font>
+                        </p>
+                    </td>
+
+                    <td class="min-width">
+                        <p><a href="tel:{{" technician.contact"}}">
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;">{{"technician.name"}}</font>
+                                </font>
+                            </a></p>
+                    </td>
+                    <td class="min-width">
+                        <p><a href="#">
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;">{{status}}</font>
+                                </font>
+                            </a></p>
+                    </td>
+
+                    <td>
+                        <div class="">
+                            <button class="btn btn-info" data-bs-toggle="modal"
+                    data-bs-target="#detail{{id}}">
+                                <i class="lni lni-information"></i>
+                                Détail
+                            </button>
+                            {{#if_eq status 'Terminé'}}
+                                
+                            {{else}}
+                                {{#if_eq status "En cours" }}
+                                <a href="/me/intervention/{{id}}/end" class="btn btn-danger">
+                                <i class="lni lni-close"></i>
+                               Terminer
+                            </a>
+                            {{else}}
+                            {{#if_eq status "Accepté"}}
+                              <a href="/me/intervention/{{id}}/start" class="btn btn-success">
+                                <i class="lni lni-start"></i>
+                                Commencer
+                            </a>
+                            {{else}}
+                            <a href="/me/intervention/{{id}}/accept" class="btn btn-success">
+                                <i class="lni lni-checkmark-circle"></i>
+                                Accepter
+                            </a>
+                            <a href="/me/intervention/{{id}}/close" class="btn btn-danger">
+                                <i class="lni lni-close"></i>
+                                Refusé
+                            </a>
+                            {{/if_eq}}
+                            {{/if_eq}}
+                            {{/if_eq}}
+                            
+
+                            
+                        </div>
+                    </td>
+                </tr>
+                
+                <!-- Modal -->
+                <div
+                    class="modal fade"
+                    id="detail{{id}}"
+                    tabindex="-1"
+                    role="dialog"
+                    aria-labelledby="modalTitleId"
+                    aria-hidden="true"
+                >
+                    <div
+                        class="modal-dialog modal-md"
+                        role="document"
+                    >
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalTitleId">
+                                    {{"Issue.name"}}
+
+                                </h5>
+                                <button
+                                    type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                ></button>
+                            </div>
+                            <div class="modal-body">
+                                <h5 class="mb-5">
+                                    {{"Issue.description"}}
+                                </h5>
+                                <h5>
+                                    Date: {{"Issue.end"}}
+                                </h5>
+                                <h3>
+                                    <i class="lni lni-pin"></i>
+                                    Lieu de l'intervention: {{"Issue.location"}}
+                                </h3>
+                            </div>
+                            <div class="modal-footer">
+                                <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal"
+                                >
+                                    Fermer
+                                </button>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {{/each}}
+
+            </tbody>
+        </table>
+        <!-- end table -->
+    </div>
+</div>

@@ -1,9 +1,9 @@
 const personnel = require("../controllers/personnel");
-const { ensureAuthenticated } = require("../middleware/auth");
+const {isAdmin } = require("../middleware/auth");
 
 const router = require("express").Router()
 
-router.get('/',ensureAuthenticated, personnel.getPersonnel);
-router.post('/create',ensureAuthenticated,personnel.createPersonnel)
+router.get('/', isAdmin, personnel.getPersonnel);
+router.post('/create',isAdmin,personnel.createPersonnel)
 
 module.exports = router

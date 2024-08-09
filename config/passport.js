@@ -18,13 +18,14 @@ function localAuth(passport) {
 					raw: true,
 				}).then(async (user) => {
 					//const getAdmin = await db.Role.findOne({ where: { name: "Admin" } });
-					if (!user) {
+					if (!user && user['roles.name']==='User') {
 						console.log("No User Found");
 
 						return done(null, false, {
 							message: "Nom d'utilisateur ou mot de passe incorrect",
 						});
 					}
+					
 					if (user) {
 						// Match password
 						bcrypt.compare(password, user.password, async (err, isMatch) => {

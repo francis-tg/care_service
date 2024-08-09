@@ -1,0 +1,160 @@
+<div class="container-fluid">
+
+    <div class="table-wrapper py-5 table-responsive">
+        <button class="btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#addIntervention"><i
+                class="lni lni-plus"></i> Initier une intervention</button>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="lead-info">
+                        <h6>
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Nom</font>
+                            </font>
+                        </h6>
+                    </th>
+                    <th class="lead-company">
+                        <h6>
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Description</font>
+                            </font>
+                        </h6>
+                    </th>
+                    <th class="lead-email">
+                        <h6>
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Techninicen</font>
+                            </font>
+                        </h6>
+                    </th>
+                    <th class="lead-phone">
+                        <h6>
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Status</font>
+                            </font>
+                        </h6>
+                    </th>
+
+                    <th>
+                        <h6>
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Action</font>
+                            </font>
+                        </h6>
+                    </th>
+                </tr>
+                <!-- end table row-->
+            </thead>
+            <tbody>
+                {{#each interventions}}
+                <tr>
+                    <td class="min-width">
+                        <div class="lead">
+                            <div class="lead-image">
+                                <i class="lni lni-close"></i>
+                            </div>
+                            <div class="lead-text">
+                                <p>
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">{{"Issue.name"}}</font>
+                                    </font>
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="min-width">
+                        <p>
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">{{"Issue.description"}}</font>
+                            </font>
+                        </p>
+                    </td>
+
+                    <td class="min-width">
+                        <p><a href="tel:{{"technician.contact"}}">
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;">{{"technician.name"}}</font>
+                                </font>
+                            </a></p>
+                    </td>
+                    <td class="min-width">
+                        <p><a href="#">
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;">{{status}}</font>
+                                </font>
+                            </a></p>
+                    </td>
+
+                    <td>
+                        <div class="action">
+                            <button class="text-danger">
+                                <i class="lni lni-trash-can"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                {{/each}}
+
+            </tbody>
+        </table>
+        <!-- end table -->
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="addIntervention" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitleId">
+                    Nouvelle intervention
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="">
+                    <form action="" method="post">
+                        <div class="mb-3">
+                            <label for="issue" class="form-label">Le problème</label>
+                            <select class="form-select" name="issue_id" id="issue">
+                                {{#each issues}}
+                                <option value="{{id}}">{{name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="technician" class="form-label">Le Techninicen</label>
+                            <select class="form-select" name="technician_id" id="technician">
+                                {{#each users}}
+                                <option value="{{id}}">{{name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Fermer
+                </button>
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var addIntervention = document.getElementById('addIntervention');
+
+    addIntervention.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        let button = event.relatedTarget;
+        // Extract info from data-bs-* attributes
+        let recipient = button.getAttribute('data-bs-whatever');
+
+        // Use above variables to manipulate the DOM
+    });
+</script>

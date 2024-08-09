@@ -15,6 +15,7 @@ var usersRouter = require('./routes/users');
 const { SessionStorage } = require('./lib/sessionStorage');
 const { jwtAuth, localAuth } = require("./config/passport");
 const flash = require("connect-flash");
+const { FormatDate, FormatToInputDate } = require('./lib/formatDate');
 
 var app = express();
 app.engine(
@@ -22,7 +23,6 @@ app.engine(
   expressHandlebars.engine({
     defaultLayout: "main",
     extname: ".hbs",
-    
     handlebars: allowInsecurePrototypeAccess(Handlebars),
     helpers: {
       selected: function (option, value) {
@@ -30,6 +30,24 @@ app.engine(
           return "selected";
         } else {
           return "";
+        }
+      },
+      inputDate(value){
+        return FormatToInputDate(value)
+      },
+      shortText(value){
+        if (String(value).length<=25) {
+          return value;
+        }else{
+          return String(value).substring(0,25)+"(...)"
+        }
+      },
+      shortTextObject(value){
+        
+        if (value.length<=25) {
+          return value;
+        }else{
+          return value.substring(0,25)+"(...)"
         }
       },
       multiplyBy: function (valueOne, valueTwo) {
@@ -44,7 +62,8 @@ app.engine(
         }
       },
       hbsDate: function (value) {
-        return formatDate(value)
+        const {date} = FormatDate(value)
+        return date
       },
       addition: (val1, value2) => {
         return parseInt(val1) + parseInt(value2);
@@ -120,11 +139,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/me', usersRouter);
 app.use('/auth',require("./routes/auth/index"))
-app.use('/api/boards',require("./routes/board"))
-app.use('/api/tasks',require("./routes/card"))
-app.use('/api/lists',require("./routes/list"))
+app.use('/admin/issue',require('./routes/issue'))
+app.use('/dashboard',require("./routes/dashboard"))
+app.use('/admin/intervention',require('./routes/intervention'))
 app.use('/admin/personnel',require("./routes/personnel"))
 
 // catch 404 and forward to error handler
