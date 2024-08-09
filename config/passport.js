@@ -18,7 +18,7 @@ function localAuth(passport) {
 					raw: true,
 				}).then(async (user) => {
 					//const getAdmin = await db.Role.findOne({ where: { name: "Admin" } });
-					if (!user && user['roles.name']==='User') {
+					if (!user && user?.['roles.name']==='User') {
 						console.log("No User Found");
 
 						return done(null, false, {

@@ -1,7 +1,6 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Intervention extends Model {
     /**
@@ -11,17 +10,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.Issue,{
-        foreignKey:'issue_id',
-        onDelete:'CASCADE'
-      })
-      this.belongsTo(models.User,{
-        foreignKey:'technician_id',
-        onDelete:'CASCADE',
-        as:'technician'
-      })
+      this.belongsTo(models.Issue, {
+        foreignKey: 'issue_id',
+        onDelete: 'CASCADE'
+      });
+      this.belongsTo(models.User, {
+        foreignKey: 'technician_id',
+        onDelete: 'CASCADE',
+        as: 'technician'
+      });
     }
   }
+
   Intervention.init({
     issue_id: DataTypes.INTEGER,
     technician_id: DataTypes.INTEGER,
@@ -29,6 +29,25 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Intervention',
+    hooks: {
+      beforeCreate: async (intervention, _options) => {
+        const existingIntervention = await Intervention.findOne({
+          where: {
+            issue_id: intervention.issue_id,
+            technician_id: intervention.technician_id
+          }
+        });
+
+        if (existingIntervention) {
+          if (process.env.NODE_ENV==='production') {
+            throw new Error('Internal error')
+          }else{
+            throw new Error('Intervention with this issue and technician already exists.');
+          }
+        }
+      }
+    }
   });
+
   return Intervention;
 };
