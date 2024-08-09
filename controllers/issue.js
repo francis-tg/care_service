@@ -45,4 +45,19 @@ module.exports = {
             next(error)
         }
     },
+    /**
+     * 
+     * @param {import("express").Request} req 
+     * @param {import("express").Response} res 
+     * @param {import("express").NextFunction} next 
+     */
+    async deleteIssue(req,res,next){
+        try {
+            const {id} = req.params
+            await db.Issue.destroy({where:{id}})
+            return res.redirect(req.headers.referer)
+        } catch (error) {
+            next(error)
+        }
+    },
 }

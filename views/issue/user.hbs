@@ -45,14 +45,71 @@
                             <span class="badge badge-warning">{{"Intervention.status"}}</span>
                         </td>
                         <td>
-                            {{"technician.name"}}
+                            {{"Intervention.technician.name"}}
                         </td>
                         <td>
-                            <a href="#" class="btn btn-info btn-xs">Voir</a>
-                            <a href="#" class="btn btn-primary btn-xs">Modifier</a>
-                            <a href="#" class="btn btn-error btn-xs">Supprimer</a>
+                            <a href="#" onclick="show{{id}}.showModal()" class="btn btn-info btn-xs">Voir</a>
+                            <a href="#" class="btn btn-primary btn-xs" onclick="edit{{id}}.showModal()">Modifier</a>
+                            <a href="/issue/delete/{{id}}" class="btn btn-error btn-xs">Supprimer</a>
                         </td>
                     </tr>
+
+                    <dialog id="show{{id}}" class="modal">
+                        <div class="modal-box">
+                            <h3 class="text-lg font-bold">{{name}}</h3>
+                            <p class="py-4">{{description}}</p>
+                            <div class="modal-action">
+                                <form method="dialog">
+                                    <!-- if there is a button in form, it will close the modal -->
+                                    <button class="btn">Fermer</button>
+                                </form>
+                            </div>
+                        </div>
+                    </dialog>
+                    <dialog id="edit{{id}}" class="modal">
+                        <div class="modal-box">
+                            <h3 class="text-lg font-bold">{{name}}</h3>
+                            <form method="post" action="/issue/update/{{id}}">
+                                <div class="form-control mt-4">
+                                    <label class="label">
+                                        <span class="label-text">Intitulé</span>
+                                    </label>
+                                    <input type="text" name="name" value="{{name}}" placeholder="" class="input input-bordered">
+                                </div>
+                                <div class="form-control mt-4">
+                                    <label class="label">
+                                        <span class="label-text">Lieu</span>
+                                    </label>
+                                    <input type="text" name="location" value="{{location}}" placeholder="Enter issue name"
+                                        class="input input-bordered">
+                                </div>
+                                <div class="form-control mt-4">
+                                    <label class="label">
+                                        <span class="label-text">Date</span>
+                                    </label>
+                                    <input type="date" name="end" value="{{inputDate end}}" placeholder="" class="input input-bordered">
+                                </div>
+
+                                <div class="form-control mt-4">
+                                    <label class="label">
+                                        <span class="label-text">Description</span>
+                                    </label>
+                                    <textarea placeholder="" name="description"
+                                        class="textarea textarea-bordered">{{description}}</textarea>
+                                </div>
+
+                                <div class="form-control mt-6">
+                                    <button class="btn btn-primary w-full">Modifier</button>
+                                </div>
+                            </form>
+                            <div class="modal-action">
+                                <form method="dialog">
+                                    <!-- if there is a button in form, it will close the modal -->
+                                    <button class="btn">Close</button>
+                                </form>
+                            </div>
+                        </div>
+                    </dialog>
                     {{/each}}
                     <!-- Add more issues as needed -->
                 </tbody>
@@ -73,13 +130,13 @@
                     <label class="label">
                         <span class="label-text">Lieu</span>
                     </label>
-                   <input type="text" name="location" placeholder="Enter issue name" class="input input-bordered">
+                    <input type="text" name="location" placeholder="Enter issue name" class="input input-bordered">
                 </div>
                 <div class="form-control mt-4">
                     <label class="label">
                         <span class="label-text">Date</span>
                     </label>
-                   <input type="date" name="end" placeholder="" class="input input-bordered">
+                    <input type="date" name="end" placeholder="" class="input input-bordered">
                 </div>
 
                 <div class="form-control mt-4">
@@ -88,7 +145,7 @@
                     </label>
                     <textarea placeholder="" name="description" class="textarea textarea-bordered"></textarea>
                 </div>
-                
+
                 <div class="form-control mt-6">
                     <button class="btn btn-primary w-full">Signaler</button>
                 </div>
@@ -102,7 +159,7 @@
         </div>
     </dialog>
 
-  
+
 </body>
 
 </html>
