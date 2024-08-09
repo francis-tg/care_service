@@ -10,7 +10,7 @@ module.exports = {
     async createIssue(req,res,next){
         try {
             const {name,description,end,location} = req.body
-            await db.Issue.create({name,description,end,user_id:req.user.id})
+            await db.Issue.create({name,description,location,end,user_id:req.user.id})
             return res.status(201).redirect(req.headers.referer)
         } catch (error) {
             next(error)

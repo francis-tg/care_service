@@ -71,7 +71,7 @@
                     </td>
 
                     <td class="min-width">
-                        <p><a href="tel:{{"technician.contact"}}">
+                        <p><a href="tel:{{" technician.contact"}}">
                                 <font style="vertical-align: inherit;">
                                     <font style="vertical-align: inherit;">{{"technician.name"}}</font>
                                 </font>
@@ -80,7 +80,16 @@
                     <td class="min-width">
                         <p><a href="#">
                                 <font style="vertical-align: inherit;">
-                                    <font style="vertical-align: inherit;">{{status}}</font>
+                                    <font style="vertical-align: inherit;">
+                                        <span class="badge rounded-pill 
+                                    {{#if_eq status 'Terminé'}} text-bg-success 
+                                    {{else if_eq status 'En cours'}} text-bg-warning 
+                                    {{else if_eq status 'Accepté'}} text-bg-info 
+                                    {{else}} text-bg-secondary 
+                                    {{/if_eq}}">
+                                            {{status}}
+                                        </span>
+                                    </font>
                                 </font>
                             </a></p>
                     </td>

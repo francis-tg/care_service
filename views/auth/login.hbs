@@ -1,181 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="shortcut icon" href="/images/favicon.svg" type="image/x-icon" />
-  <title>Connexion</title>
-
-  <!-- ========== All CSS files linkup ========= -->
-  <link rel="stylesheet" href="/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="/css/lineicons.css" />
-  <link rel="stylesheet" href="/css/materialdesignicons.min.css" />
-  <link rel="stylesheet" href="/css/fullcalendar.css" />
-  <link rel="stylesheet" href="/css/main.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Care service | connexion</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-  <!-- ======== Preloader =========== -->
-  <div id="preloader">
-    <div class="spinner"></div>
-  </div>
-  <!-- ======== Preloader =========== -->
-
-
-
-  <div class="row g-0 auth-row">
-    <div class="col-lg-6">
-      <div class="auth-cover-wrapper bg-primary-100">
-        <div class="auth-cover">
-          <div class="title text-center">
-            <h1 class="text-primary mb-10">Welcome Back</h1>
-            <p class="text-medium">
-              Sign in to your Existing account to continue
-            </p>
-          </div>
-          <div class="cover-image">
-            <img src="/images/auth/signin-image.svg" alt="" />
-          </div>
-          <div class="shape-image">
-            <img src="/images/auth/shape.svg" alt="" />
-          </div>
-        </div>
+<body class="bg-gray-100">
+  <div class="min-h-screen flex items-center justify-center">
+    <div class="card shadow-lg bg-white w-full max-w-md">
+      
+      {{#if error}}
+      <div role="alert" class="alert alert-error">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>{{error}}</span>
       </div>
-    </div>
-    <!-- end col -->
-    <div class="col-lg-6">
-      <div class="signin-wrapper">
-        <div class="form-wrapper">
-          <h6 class="mb-15">Sign In Form</h6>
-          <p class="text-sm mb-25">
-            Start creating the best possible user experience for you
-            customers.
+
+      {{/if}}
+      <div class="card-body">
+        <h2 class="card-title text-center text-2xl font-bold">Connexion</h2>
+        <form method="post" action="/auth/login">
+          <div class="form-control mt-4">
+            <label class="label">
+              <span class="label-text">Email</span>
+            </label>
+            <input type="email" name="username" placeholder="email@example.com" class="input input-bordered w-full">
+          </div>
+
+          <div class="form-control mt-4">
+            <label class="label">
+              <span class="label-text">Mot de passe</span>
+            </label>
+            <input type="password" placeholder="••••••••" name="password" class="input input-bordered w-full">
+          </div>
+
+
+          <div class="form-control mt-6">
+            <button class="btn btn-primary w-full">Connexion</button>
+          </div>
+        </form>
+
+        <div class="text-center mt-4">
+          <p class="text-sm">Vous n'avez pas de compte? <a href="/auth/register" class="text-blue-500">Créer en un</a>
           </p>
-          {{#if error}}
-          <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong><i class="fas fa-exclamation-triangle"></i></strong> {{error}}
-          </div>
-          {{/if}}
-          <form action="/auth/login" method="post">
-            <div class="row">
-              <div class="col-12">
-                <div class="input-style-1">
-                  <label>Email</label>
-                  <input type="email" name="username" placeholder="Email" />
-                </div>
-              </div>
-              <!-- end col -->
-              <div class="col-12">
-                <div class="input-style-1">
-                  <label>Password</label>
-                  <input type="password" name="password" placeholder="Password" />
-                </div>
-              </div>
-              <!-- end col -->
-              <div class="col-xxl-6 col-lg-12 col-md-6">
-                <div class="form-check checkbox-style mb-30">
-                  <input class="form-check-input" type="checkbox" value="" id="checkbox-remember" />
-                  <label class="form-check-label" for="checkbox-remember">
-                    Remember me next time</label>
-                </div>
-              </div>
-              <!-- end col -->
-              <div class="col-xxl-6 col-lg-12 col-md-6">
-                <div class="text-start text-md-end text-lg-start text-xxl-end mb-30">
-                  <a href="reset-password.html" class="hover-underline">
-                    Forgot Password?
-                  </a>
-                </div>
-              </div>
-              <!-- end col -->
-              <div class="col-12">
-                <div class="button-group d-flex justify-content-center flex-wrap">
-                  <button class="main-btn primary-btn btn-hover w-100 text-center">
-                    Sign In
-                  </button>
-                </div>
-              </div>
-            </div>
-            <!-- end row -->
-          </form>
-          <div class="singin-option pt-40">
-            <p class="text-sm text-medium text-center text-gray">
-              Easy Sign In With
-            </p>
-            <div class="button-group pt-40 pb-40 d-flex justify-content-center flex-wrap">
-              <button class="main-btn primary-btn-outline m-2">
-                <i class="lni lni-facebook-fill mr-10"></i>
-                Facebook
-              </button>
-              <button class="main-btn danger-btn-outline m-2">
-                <i class="lni lni-google mr-10"></i>
-                Google
-              </button>
-            </div>
-            <p class="text-sm text-medium text-dark text-center">
-              Don’t have any account yet?
-              <a href="signup.html">Create an account</a>
-            </p>
-          </div>
         </div>
       </div>
     </div>
-    <!-- end col -->
   </div>
-  <!-- end row -->
-  </div>
-  </section>
-  <!-- ========== signin-section end ========== -->
-
-  <!-- ========== footer start =========== -->
-  <footer class="footer">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-6 order-last order-md-first">
-          <div class="copyright text-center text-md-start">
-            <p class="text-sm">
-              Designed and Developed by
-              <a href="https://plainadmin.com" rel="nofollow" target="_blank">
-                PlainAdmin
-              </a>
-            </p>
-          </div>
-        </div>
-        <!-- end col-->
-        <div class="col-md-6">
-          <div class="terms d-flex justify-content-center justify-content-md-end">
-            <a href="#0" class="text-sm">Term & Conditions</a>
-            <a href="#0" class="text-sm ml-15">Privacy & Policy</a>
-          </div>
-        </div>
-      </div>
-      <!-- end row -->
-    </div>
-    <!-- end container -->
-  </footer>
-  <!-- ========== footer end =========== -->
-  </main>
-  <!-- ======== main-wrapper end =========== -->
-
-  <!-- ========= All Javascript files linkup ======== -->
-  <script src="/js/bootstrap.bundle.min.js"></script>
-  <script src="/js/Chart.min.js"></script>
-  <script src="/js/dynamic-pie-chart.js"></script>
-  <script src="/js/moment.min.js"></script>
-  <script src="/js/fullcalendar.js"></script>
-  <script src="/js/jvectormap.min.js"></script>
-  <script src="/js/world-merc.js"></script>
-  <script src="/js/polyfill.js"></script>
-  <script src="/js/main.js"></script>
-  <script>
-    document.querySelectorAll(".alert").forEach((alert) => {
-      setTimeout(() => {
-        alert.style.display = "none";
-      }, 5000);
-    });
-  </script>
 </body>
 
 </html>

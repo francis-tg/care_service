@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'user_id',
         onDelete: 'CASCADE'
       });
+      this.hasOne(models.Intervention,{
+        foreignKey:'issue_id',
+        onDelete:"CASCADE"
+      })
     }
   }
 
@@ -31,10 +35,12 @@ module.exports = (sequelize, DataTypes) => {
       beforeCreate: async (issue, _options) => {
         // Set the start date to the current date
         issue.start = new Date();
+        
 
         // Check if an issue with the same name and description already exists
         const existingIssue = await Issue.findOne({
           where: {
+            user_id:issue.user_id,
             name: issue.name,
             description: issue.description
           }

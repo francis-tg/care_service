@@ -37,7 +37,18 @@
                         <p><a href="tel:{{technician.contact}}">{{technician.name}}</a></p>
                     </td>
                     <td class="min-width">
-                        <p><a href="#">{{status}}</a></p>
+                        <p>
+                            <a href="#">
+                                <span class="badge rounded-pill 
+                                    {{#if_eq status 'Terminé'}} text-bg-success 
+                                    {{else if_eq status 'En cours'}} text-bg-warning 
+                                    {{else if_eq status 'Accepté'}} text-bg-info 
+                                    {{else}} text-bg-secondary 
+                                    {{/if_eq}}">
+                                    {{status}}
+                                </span>
+                            </a>
+                        </p>
                     </td>
                     <td>
                         <div class="action-buttons">

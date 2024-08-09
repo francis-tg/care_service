@@ -115,9 +115,10 @@ app.use(
   }),
 );
 
-app.use(flash());
+
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 jwtAuth(passport);
 localAuth(passport);
 
@@ -127,7 +128,7 @@ app.use(async function (req, res, next) {
   res.locals.messages = req.session.messages || [];
   req.session.messages = [];
   res.locals.error = req.flash("error") || null;
-  //console.log(req.user)
+ // console.log(req.flash('error'))
   next();
 });
 // view engine setup
