@@ -7,7 +7,8 @@ var router = express.Router();
 /* GET users listing. */
 router.get('/intervention',ensureAuthenticated, async function(req, res, next) {
  try {
-   const interventions = await db.Intervention.findAll({where:{[Op.and]:[{technician_id:req.user.id},{status:{[Op.not]:'Refusé'}}]},include:['technician','Issue'],raw:true})
+   const interventions = await db.Intervention.findAll({where:{[Op.and]:[{technician_id:req.user.id},{status:{[Op.not]:'Refusé'}}]},include:['technician','Issue'],raw:true,nest:true})
+   console.log(interventions)
    return res.render('intervention/technician',{interventions})
  } catch (error) {
   next(error)

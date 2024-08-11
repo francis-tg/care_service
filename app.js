@@ -44,10 +44,10 @@ app.engine(
       },
       shortTextObject(value){
         
-        if (value.length<=25) {
+        if (String(value)?.length<=25) {
           return value;
         }else{
-          return value.substring(0,25)+"(...)"
+          return String(value)?.substring(0,25)+"(...)"
         }
       },
       multiplyBy: function (valueOne, valueTwo) {
