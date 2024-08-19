@@ -73,6 +73,37 @@ module.exports = {
      * @param {import("express").Response} res 
      * @param {import("express").NextFunction} next
      */
+    async createUser(req, res, next) {
+        try {
+            const {name,contact,lastname,email} = req.body;
+            const userRole = await db.Role.findOne({ where: { name: 'User' } });
+            const user = await db.User.create({ name, email,lastname,contact, password:contact });
+            await user.addRole(userRole);
+            return res.redirect(req.headers.referer)
+        } catch (error) {
+            next(error)
+        }
+    },
+    /**
+     * 
+     * @param {import("express").Request} req 
+     * @param {import("express").Response} res 
+     * @param {import("express").NextFunction} next
+     */
+    async removeUser(req, res, next) {
+        try {
+            await db.User.destroy({ where:{id:req.params.id }});
+            return res.redirect(req.headers.referer)
+        } catch (error) {
+            next(error)
+        }
+    },
+    /**
+     * 
+     * @param {import("express").Request} req 
+     * @param {import("express").Response} res 
+     * @param {import("express").NextFunction} next
+     */
     async updatecreatePersonnel(req, res, next) {
         try {
             const {name,contact,lastname,email} = req.body;

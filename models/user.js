@@ -2,7 +2,8 @@
 const {
   Model
 } = require('sequelize');
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
+const { sendMail } = require('../lib/sendMail');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -33,6 +34,20 @@ module.exports = (sequelize, DataTypes) => {
       beforeCreate: async (user) => {
         user.password = await bcrypt.hash(user.password, 10);
       },
+      async afterCreate(user){
+        await sendMail({
+          email:user.email,
+          subject:'Information',
+          template:'activation.html',
+          data:{
+            name:user.name,
+            lastname:user.lastname,
+            email:user.email,
+            password:user.contact,
+            support:'support@careservice.com'
+          }
+        })
+      }
       
     }
   });

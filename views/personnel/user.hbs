@@ -4,13 +4,13 @@
             <div class="card-style mb-30">
                 <h6 class="mb-10">
                     <font style="vertical-align: inherit;">
-                        <font style="vertical-align: inherit;">Utilisateurs</font>
+                        <font style="vertical-align: inherit;">Clients</font>
                     </font>
                 </h6>
-               {{!--  <div class="flex justify-content-end">
+                <div class="flex justify-content-end">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#addUser">Ajouter un personnel</button>
-                </div> --}}
+                        data-bs-target="#addUser">Ajouter un client</button>
+                </div>
                 <p class="text-sm mb-20">
                     <font style="vertical-align: inherit;">
                         <font style="vertical-align: inherit;">
@@ -102,9 +102,9 @@
 
                                 <td>
                                     <div class="action">
-                                        <button class="text-danger">
+                                        <a href="/admin/personnel/remove/{{id}}" class="text-danger">
                                             <i class="lni lni-trash-can"></i>
-                                        </button>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
@@ -128,13 +128,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalTitleId">
-                        Ajouter un personnel
+                        Ajouter un Client
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="">
-                        <form action="/admin/personnel/create" method="post">
+                        <form action="/admin/personnel/client" method="post">
                          <div class="mb-3">
                             <label for="name" class="form-label">Nom</label>
                             <input

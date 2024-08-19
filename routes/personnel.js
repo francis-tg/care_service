@@ -5,6 +5,7 @@ const router = require("express").Router()
 
 router.get('/', isAdmin, personnel.getPersonnel);
 router.get('/users', isAdmin, personnel.getUsers);
-router.post('/create',isAdmin,personnel.createPersonnel)
-
+router.post('/create',isAdmin,personnel.createPersonnel);
+router.post('/client',isAdmin,personnel.createUser);
+router.get('/remove/:id',isAdmin,personnel.removeUser)
 module.exports = router

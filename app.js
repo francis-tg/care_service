@@ -16,7 +16,7 @@ const { SessionStorage } = require('./lib/sessionStorage');
 const { jwtAuth, localAuth } = require("./config/passport");
 const flash = require("connect-flash");
 const { FormatDate, FormatToInputDate } = require('./lib/formatDate');
-
+require("dotenv").config()
 var app = express();
 app.engine(
   ".hbs",
