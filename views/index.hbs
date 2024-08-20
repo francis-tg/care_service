@@ -43,6 +43,7 @@
         <div class="navbar-end">
             {{#if_eq user.role 'User'}}
             <a href="/issue" class="btn">Signaler un problème</a>
+            <a href="/auth/logout" class="btn btn-error">Se déconnecter</a>
             {{else}}
             <a href="/auth/login" class="btn">Connexion</a>
             {{/if_eq}}
