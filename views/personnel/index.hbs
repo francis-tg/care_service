@@ -102,118 +102,148 @@
 
                                 <td>
                                     <div class="action">
-                                        <a href="/admin/personnel/remove/{{id}}" class="text-danger">
+                                        <a href="#" class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                            data-bs-target="#editPersonnel{{id}}">
+                                            <i class="lni lni-pencil-alt"></i>
+                                        </a>
+                                        <a href="/admin/personnel/remove/{{id}}" class="btn btn-sm btn-danger">
                                             <i class="lni lni-trash-can"></i>
                                         </a>
                                     </div>
                                 </td>
                             </tr>
-                            {{/each}}
 
-                        </tbody>
-                    </table>
-                    <!-- end table -->
+
+
+                            <!-- Modal Body -->
+                            <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+                            <div class="modal fade" id="editPersonnel{{id}}" tabindex="-1" data-bs-backdrop="static"
+                                data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered "
+                                    role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalTitleId">
+                                                Modifier
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/admin/personnel/update/{{id}}" method="post">
+                                                <div class="mb-3">
+                                                    <label for="name" class="form-label">Nom</label>
+                                                    <input type="text" class="form-control" name="name" id="name"
+                                                        aria-describedby="helpId" placeholder="" value="{{name}}" required />
+
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="lastname" class="form-label">Prénom</label>
+                                                    <input type="text" class="form-control" name="lastname"
+                                                        id="lastname" value="{{lastname}}" aria-describedby="helpId" placeholder=""
+                                                        required />
+
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="email" class="form-label">Email</label>
+                                                    <input type="email" value="{{email}}" class="form-control" name="email" id="email"
+                                                        required aria-describedby="helpId" placeholder="" />
+
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="contact" class="form-label">N° de téléphone</label>
+                                                    <input type="tel" value="{{contact}}" class="form-control" name="contact" id="contact"
+                                                        required aria-describedby="helpId" placeholder="" />
+
+                                                </div>
+                                                 <button type="submit" class="btn btn-primary w-100">Modifier</button>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                Fermer
+                                            </button>
+                                           
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
                 </div>
+
+
+
+                {{/each}}
+
+                </tbody>
+                </table>
+                <!-- end table -->
             </div>
-            <!-- end card -->
         </div>
-        <!-- end col -->
+        <!-- end card -->
     </div>
-    <!-- end row -->
+    <!-- end col -->
+</div>
+<!-- end row -->
 
 
-    <!-- Modal -->
-    <div class="modal modal-center fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitleId">
-                        Ajouter un personnel
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="">
-                        <form action="/admin/personnel/create" method="post">
-                         <div class="mb-3">
+<!-- Modal -->
+<div class="modal modal-center fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitleId">
+                    Ajouter un personnel
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="">
+                    <form action="/admin/personnel/create" method="post">
+                        <div class="mb-3">
                             <label for="name" class="form-label">Nom</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                name="name"
-                                id="name"
-                                aria-describedby="helpId"
-                                placeholder=""
-                                required
-                            />
-                           
-                         </div>
-                         <div class="mb-3">
+                            <input type="text" class="form-control" name="name" id="name" aria-describedby="helpId"
+                                placeholder="" required />
+
+                        </div>
+                        <div class="mb-3">
                             <label for="lastname" class="form-label">Prénom</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                name="lastname"
-                                id="lastname"
-                                aria-describedby="helpId"
-                                placeholder=""
-                                required
-                            />
-                           
-                         </div>
-                         <div class="mb-3">
+                            <input type="text" class="form-control" name="lastname" id="lastname"
+                                aria-describedby="helpId" placeholder="" required />
+
+                        </div>
+                        <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input
-                                type="email"
-                                class="form-control"
-                                name="email"
-                                id="email"
-                                required
-                                aria-describedby="helpId"
-                                placeholder=""
-                            />
-                           
-                         </div>
-                         <div class="mb-3">
+                            <input type="email" class="form-control" name="email" id="email" required
+                                aria-describedby="helpId" placeholder="" />
+
+                        </div>
+                        <div class="mb-3">
                             <label for="contact" class="form-label">N° de téléphone</label>
-                            <input
-                                type="tel"
-                                class="form-control"
-                                name="contact"
-                                id="contact"
-                                required
-                                aria-describedby="helpId"
-                                placeholder=""
-                            />
-                           
-                         </div>
-                         
-                        
-                    </div>
+                            <input type="tel" class="form-control" name="contact" id="contact" required
+                                aria-describedby="helpId" placeholder="" />
+
+                        </div>
+
+
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Fermer
-                    </button>
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
-                    </form>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Fermer
+                </button>
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        var addUser = document.getElementById('addUser');
 
-        modalId.addEventListener('show.bs.modal', function (event) {
-            // Button that triggered the modal
-            let button = event.relatedTarget;
-            // Extract info from data-bs-* attributes
-            let recipient = button.getAttribute('data-bs-whatever');
-
-            // Use above variables to manipulate the DOM
-        });
-    </script>
 
 
 </div>

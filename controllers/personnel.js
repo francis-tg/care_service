@@ -104,10 +104,10 @@ module.exports = {
      * @param {import("express").Response} res 
      * @param {import("express").NextFunction} next
      */
-    async updatecreatePersonnel(req, res, next) {
+    async updatePersonnel(req, res, next) {
         try {
             const {name,contact,lastname,email} = req.body;
-            const {id} = req.id;
+            const {id} = req.params;
             await db.User.update({ name, email,lastname,contact},{where:{id}});
             return res.redirect(req.headers.referer)
         } catch (error) {
