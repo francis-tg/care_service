@@ -14,14 +14,14 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.hasMany(models.Issue, { foreignKey: 'user_id', as: 'client' });
-      this.hasMany(models.Intervention,{foreignKey:'technician_id',as:'technician'})
+      this.hasMany(models.Intervention, { foreignKey: 'technician_id', as: 'technician' })
       this.belongsToMany(models.Role, { through: 'UserRole', as: 'roles', foreignKey: 'userId' });
     }
   }
   User.init({
     name: DataTypes.STRING,
-    lastname:DataTypes.STRING,
-    contact:DataTypes.STRING,
+    lastname: DataTypes.STRING,
+    contact: DataTypes.STRING,
     email: {
       type: DataTypes.STRING,
       unique: true
@@ -34,21 +34,23 @@ module.exports = (sequelize, DataTypes) => {
       beforeCreate: async (user) => {
         user.password = await bcrypt.hash(user.password, 10);
       },
-      async afterCreate(user){
-        await sendMail({
-          email:user.email,
-          subject:'Information',
-          template:'activation.html',
-          data:{
-            name:user.name,
-            lastname:user.lastname,
-            email:user.email,
-            password:user.contact,
-            support:'support@careservice.com'
-          }
-        })
+      async afterCreate(user) {
+        if (process.env.NODE_ENV === 'production') {
+          await sendMail({
+            email: user.email,
+            subject: 'Information',
+            template: 'activation.html',
+            data: {
+              name: user.name,
+              lastname: user.lastname,
+              email: user.email,
+              password: user.contact,
+              support: 'support@careservice.com'
+            }
+          })
+        }
       }
-      
+
     }
   });
   return User;
