@@ -1,72 +1,80 @@
 <!-- ========== header start ========== -->
 <header class="header">
     <div class="container-fluid">
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-lg-5 col-md-5 col-6">
                 <div class="header-left d-flex align-items-center">
-                    <div class="menu-toggle-btn mr-15">
-                        <button id="menu-toggle" class="main-btn primary-btn btn-hover">
-                            <i class="lni lni-chevron-left me-2"></i> Menu
-                        </button>
-                    </div>
-                    {{!-- <div class="header-search d-none d-md-flex">
-                        <form action="#">
-                            <input type="text" placeholder="Search..." />
-                            <button><i class="lni lni-search-alt"></i></button>
-                        </form>
-                    </div> --}}
+                    <button id="menu-toggle" class="main-btn primary-btn btn-hover me-2" style="padding: 5px 10px; font-size: 0.85rem;">
+                        <i class="lni lni-chevron-left me-1"></i> Menu
+                    </button>
                 </div>
             </div>
-            <div class="col-lg-7 col-md-7 col-6">
-                <div class="header-right">
-                 
+            <div class="col-lg-7 col-md-7 col-6 text-end">
+                <div class="header-right d-flex align-items-center justify-content-end">
                     <!-- profile start -->
-                    <div class="profile-box ml-15">
+                    <div class="profile-box me-3">
                         <button class="dropdown-toggle bg-transparent border-0" type="button" id="profile"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            <div class="profile-info">
-                                <div class="info">
-                                    <div class="image">
-                                        <img src="/images/profile/default.png" alt="" />
-                                    </div>
-                                    <div>
-                                        <h6 class="fw-500">{{user.name}}</h6>
-                                        {{!-- <p>{{user.role}}</p> --}}
-                                    </div>
+                            <div class="profile-info d-flex align-items-center">
+                                <img src="/images/profile/default.png" alt="" class="rounded-circle me-2" width="40" />
+                                <div>
+                                    <h6 class="fw-500 mb-0">{{user.name}}</h6>
                                 </div>
                             </div>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profile">
                             <li>
-                                <div class="author-info flex items-center !p-1">
-                                    <div class="image">
-                                        <img src="/images/profile/default.png" alt="image">
-                                    </div>
+                                <div class="author-info d-flex align-items-center p-2">
+                                    <img src="/images/profile/default.png" alt="image" class="rounded-circle me-2" width="40">
                                     <div class="content">
-                                        <h4 class="text-sm">{{user.name}}</h4>
-                                        <a class="text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white text-xs"
-                                            href="#">{{user.email}}</a>
+                                        <h4 class="text-sm mb-0">{{user.name}}</h4>
+                                        <a href="#" class="text-black/40 hover:text-black text-xs">{{user.email}}</a>
                                     </div>
                                 </div>
                             </li>
-                            <li class="divider"></li>
-                            
-                           
-                            <li>
-                                <a href="#0"> <i class="lni lni-cog"></i> Settings </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="/auth/logout"> <i class="lni lni-exit"></i> Déconnexion </a>
-                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a href="#0"><i class="lni lni-cog"></i> Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a href="/auth/logout"><i class="lni lni-exit"></i> Déconnexion</a></li>
                         </ul>
-                         <a href="/auth/logout" class="btn btn-danger"> <i class="lni lni-exit"></i> Déconnexion </a>
                     </div>
                     <!-- profile end -->
-                   
+                    <a href="/auth/logout" class="btn btn-danger d-flex align-items-center position-relative">
+                        <i class="lni lni-exit"></i>
+                        <span class="position-absolute translate-middle badge rounded-pill bg-danger" style="top: -10px; right: -10px; display: none;">Déconnexion</span>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 </header>
 <!-- ========== header end ========== -->
+
+<style>
+    .header {
+        background-color: #fff; /* Couleur de fond */
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Ombre pour effet de profondeur */
+    }
+
+    .profile-info img {
+        border-radius: 50%;
+    }
+
+    .dropdown-menu {
+        min-width: 200px; /* Largeur minimale du menu déroulant */
+    }
+
+    .btn-danger:hover .badge {
+        display: block; /* Afficher "Déconnexion" au survol */
+    }
+
+    @media (max-width: 768px) {
+        .header-left {
+            flex-grow: 1;
+        }
+        .header-right {
+            flex-grow: 1;
+            justify-content: flex-end;
+        }
+    }
+</style>

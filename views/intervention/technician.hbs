@@ -82,24 +82,76 @@
                 </tr>
 
                 <!-- Modal -->
-                <div class="modal fade" id="detail{{id}}" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
-                    <div class="modal-dialog modal-md" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="modalTitleId">{{Issue.name}}</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <h5 class="mb-5">{{Issue.description}}</h5>
-                                <h5>Date: {{Issue.end}}</h5>
-                                <h3><i class="lni lni-pin"></i> Lieu de l'intervention: {{Issue.location}}</h3>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<!-- Modal -->
+<div class="modal fade" id="detail{{id}}" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content rounded-3 shadow-lg">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="modalTitleId">{{Issue.name}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted mb-3">{{Issue.description}}</p>
+                <p>Date: <strong>{{Issue.end}} (GMT+1)</strong></p>
+                <h5 class="mt-3">
+                    <i class="lni lni-pin text-primary"></i> Lieu de l'intervention: <strong>{{Issue.location}}</strong>
+                </h5>
+                <hr>
+                {{!-- <h6 class="text-secondary">Informations du client:</h6>
+                <ul class="list-unstyled">
+                    <li><strong>Nom:</strong> {{name}}</li>
+                    <li><strong>Email:</strong> {{email}}</li>
+                    <li><strong>Téléphone:</strong> {{phone}}</li>
+                </ul>
+                <h6 class="text-secondary">Détails supplémentaires:</h6>
+                <ul class="list-unstyled">
+                    <li><strong>Durée estimée:</strong> {{Issue.duration}}</li>
+                    <li><strong>Priorité:</strong> <span class="badge bg-warning text-dark">{{Issue.priority}}</span></li>
+                </ul> --}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modal-header {
+        border-bottom: 2px solid #0056b3;
+    }
+
+    .modal-title {
+        font-weight: 700;
+        font-size: 1.5rem;
+    }
+
+    .modal-body {
+        font-family: 'Arial', sans-serif;
+        line-height: 1.6;
+        color: #333;
+    }
+
+    .modal-footer {
+        justify-content: flex-end;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+    @media (max-width: 768px) {
+        .modal-dialog {
+            width: 90%;
+            margin: auto;
+        }
+    }
+</style>
 
                 {{/each}}
             </tbody>

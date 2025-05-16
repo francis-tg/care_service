@@ -7,10 +7,10 @@
     <title>Signalement</title>
     <link href="/css/output.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="/css/lineicons.css" rel="stylesheet" type="text/css" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self';">
 </head>
 
 <body class="bg-gray-100">
-    <!-- Navigation Bar -->
     <div class="navbar bg-base-100 shadow-lg mb-8">
         <div class="flex-1">
             <a class="btn btn-ghost normal-case text-xl" href="/"><i class="lni lni-arrow-left"></i>Signalement</a>
@@ -20,7 +20,6 @@
         </div>
     </div>
 
-    <!-- Issue List -->
     <div class="container mx-auto px-4">
         <h2 class="text-3xl font-bold mb-6">Problèmes</h2>
 
@@ -36,16 +35,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Example Issue 1 -->
                     {{#each issues}}
                     <tr>
-                        <td>{{name}}</td>
-                        <td>{{shortText description}}</td>
+                        <td>{{escape name}}</td>
+                        <td>{{escape description}}</td>
                         <td>
-                            <span class="badge badge-warning">{{"Intervention.status"}}</span>
+                            <span class="badge badge-warning">{{escape "Intervention.status"}}</span>
                         </td>
                         <td>
-                            {{"Intervention.technician.name"}}
+                            {{escape "Intervention.technician.name"}}
                         </td>
                         <td>
                             <a href="#" onclick="show{{id}}.showModal()" class="btn btn-info btn-xs">Voir</a>
@@ -56,11 +54,10 @@
 
                     <dialog id="show{{id}}" class="modal">
                         <div class="modal-box">
-                            <h3 class="text-lg font-bold">{{name}}</h3>
-                            <p class="py-4">{{description}}</p>
+                            <h3 class="text-lg font-bold">{{escape name}}</h3>
+                            <p class="py-4">{{escape description}}</p>
                             <div class="modal-action">
                                 <form method="dialog">
-                                    <!-- if there is a button in form, it will close the modal -->
                                     <button class="btn">Fermer</button>
                                 </form>
                             </div>
@@ -68,50 +65,45 @@
                     </dialog>
                     <dialog id="edit{{id}}" class="modal">
                         <div class="modal-box">
-                            <h3 class="text-lg font-bold">{{name}}</h3>
+                            <h3 class="text-lg font-bold">{{escape name}}</h3>
                             <form method="post" action="/issue/update/{{id}}">
+                                <input type="hidden" name="_csrf" value="{{csrfToken}}">
                                 <div class="form-control mt-4">
                                     <label class="label">
                                         <span class="label-text">Intitulé</span>
                                     </label>
-                                    <input type="text" name="name" value="{{name}}" placeholder="" class="input input-bordered">
+                                    <input type="text" name="name" value="{{escape name}}" class="input input-bordered" required>
                                 </div>
                                 <div class="form-control mt-4">
                                     <label class="label">
                                         <span class="label-text">Lieu</span>
                                     </label>
-                                    <input type="text" name="location" value="{{location}}" placeholder="Enter issue name"
-                                        class="input input-bordered">
+                                    <input type="text" name="location" value="{{escape location}}" class="input input-bordered" required>
                                 </div>
                                 <div class="form-control mt-4">
                                     <label class="label">
                                         <span class="label-text">Date</span>
                                     </label>
-                                    <input type="date" name="end" value="{{inputDate end}}" placeholder="" class="input input-bordered">
+                                    <input type="date" name="end" value="{{inputDate end}}" class="input input-bordered" required>
                                 </div>
-
                                 <div class="form-control mt-4">
                                     <label class="label">
                                         <span class="label-text">Description</span>
                                     </label>
-                                    <textarea placeholder="" name="description"
-                                        class="textarea textarea-bordered">{{description}}</textarea>
+                                    <textarea name="description" class="textarea textarea-bordered" required>{{escape description}}</textarea>
                                 </div>
-
                                 <div class="form-control mt-6">
                                     <button class="btn btn-primary w-full">Modifier</button>
                                 </div>
                             </form>
                             <div class="modal-action">
                                 <form method="dialog">
-                                    <!-- if there is a button in form, it will close the modal -->
-                                    <button class="btn">Close</button>
+                                    <button class="btn">Fermer</button>
                                 </form>
                             </div>
                         </div>
                     </dialog>
                     {{/each}}
-                    <!-- Add more issues as needed -->
                 </tbody>
             </table>
         </div>
@@ -119,47 +111,43 @@
     <dialog id="my_modal_1" class="modal">
         <div class="modal-box">
             <h3 class="font-bold text-lg">Signaler un nouveau problème</h3>
-            <form method="post">
+            <form method="post" action="/issue/create">
+                <input type="hidden" name="_csrf" value="{{csrfToken}}">
                 <div class="form-control mt-4">
                     <label class="label">
                         <span class="label-text">Intitulé</span>
                     </label>
-                    <input type="text" name="name" placeholder="" class="input input-bordered">
+                    <input type="text" name="name" class="input input-bordered" required>
                 </div>
                 <div class="form-control mt-4">
                     <label class="label">
                         <span class="label-text">Lieu</span>
                     </label>
-                    <input type="text" name="location" placeholder="Enter issue name" class="input input-bordered">
+                    <input type="text" name="location" class="input input-bordered" required>
                 </div>
                 <div class="form-control mt-4">
                     <label class="label">
                         <span class="label-text">Date</span>
                     </label>
-                    <input type="date" name="end" placeholder="" class="input input-bordered">
+                    <input type="date" name="end" class="input input-bordered" required>
                 </div>
-
                 <div class="form-control mt-4">
                     <label class="label">
                         <span class="label-text">Description</span>
                     </label>
-                    <textarea placeholder="" name="description" class="textarea textarea-bordered"></textarea>
+                    <textarea name="description" class="textarea textarea-bordered" required></textarea>
                 </div>
-
                 <div class="form-control mt-6">
                     <button class="btn btn-primary w-full">Signaler</button>
                 </div>
             </form>
             <div class="modal-action">
                 <form method="dialog">
-                    <!-- if there is a button in form, it will close the modal -->
                     <button class="btn">Fermer</button>
                 </form>
             </div>
         </div>
     </dialog>
-
-
 </body>
 
 </html>
